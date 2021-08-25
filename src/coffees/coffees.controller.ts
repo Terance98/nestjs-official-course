@@ -7,7 +7,6 @@ import {
   Patch,
   Delete,
   Query,
-  NotFoundException,
 } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
@@ -25,9 +24,7 @@ export class CoffeesController {
 
   @Get(':id')
   findOne(@Param('id') id: number) {
-    const coffee = this.coffeeService.findOne('' + id);
-    if (!coffee) throw new NotFoundException(`Coffee #${id} no found`);
-    return coffee;
+    return this.coffeeService.findOne('' + id);
   }
 
   @Post()
