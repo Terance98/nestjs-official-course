@@ -15,8 +15,14 @@ export class Coffee {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  descriptions: string;
+
   @Column()
   brand: string;
+
+  @Column({ default: 0 })
+  reccomendations: number;
 
   @JoinTable()
   @ManyToMany((type) => Flavour, (flavour) => flavour.coffees, {
