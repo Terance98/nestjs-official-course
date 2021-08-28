@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 import { Coffee } from './entities/coffee.entity';
@@ -8,7 +8,13 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Flavour } from './entities/flavour.entity';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
-@Injectable()
+import { COFFEE_BRANDS } from './coffees.constants';
+
+// If we declare the service as request scoped, all the other classes which makes use of this service via dependency injection will automatically be request
+// scoped as well. The scope basically will bubble up to the upper layers.
+// Making the server as request scoped can also have performance drop. It is recommended to keep it in singleton (defualt) scope to optimise for better performance
+// Otherwise for each request certain class instances will have to be created. May be even db connections will also get re-established.
+@Injectable({ scope: Scope.REQUEST })
 export class CoffeesService {
   constructor(
     @InjectRepository(Coffee)
@@ -16,7 +22,11 @@ export class CoffeesService {
     @InjectRepository(Flavour)
     private readonly flavourRepository: Repository<Flavour>,
     private readonly connection: Connection,
-  ) {}
+    @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+  ) {
+    console.log(coffeeBrands);
+    console.log('Coffee service instantiated');
+  }
 
   findAll(paginationQuery: PaginationQueryDto) {
     const { limit, offset } = paginationQuery;
