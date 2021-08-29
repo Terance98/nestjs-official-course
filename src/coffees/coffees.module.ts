@@ -1,4 +1,4 @@
-import { Injectable, Module, Scope } from '@nestjs/common';
+import { Module, Scope } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoffeesController } from './coffees.controller';
 import { CoffeesService } from './coffees.service';
@@ -7,9 +7,14 @@ import { Flavour } from './entities/flavour.entity';
 import { Event } from '../events/entities/event.entity';
 import { COFFEE_BRANDS } from './coffees.constants';
 import { Connection } from 'typeorm';
+import { ConfigModule } from '@nestjs/config';
+import coffeesConfig from './config/coffees.config';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Coffee, Flavour, Event])],
+  imports: [
+    TypeOrmModule.forFeature([Coffee, Flavour, Event]),
+    ConfigModule.forFeature(coffeesConfig), //Coffee module dependant env variables are injected here
+  ],
   controllers: [CoffeesController],
   providers: [
     CoffeesService,

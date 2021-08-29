@@ -9,12 +9,15 @@ import { Flavour } from './entities/flavour.entity';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
 import { COFFEE_BRANDS } from './coffees.constants';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import CoffeesConfig from './config/coffees.config';
 
 // If we declare the service as request scoped, all the other classes which makes use of this service via dependency injection will automatically be request
 // scoped as well. The scope basically will bubble up to the upper layers.
 // Making the server as request scoped can also have performance drop. It is recommended to keep it in singleton (defualt) scope to optimise for better performance
 // Otherwise for each request certain class instances will have to be created. May be even db connections will also get re-established.
-@Injectable({ scope: Scope.REQUEST })
+// @Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class CoffeesService {
   constructor(
     @InjectRepository(Coffee)
@@ -23,9 +26,24 @@ export class CoffeesService {
     private readonly flavourRepository: Repository<Flavour>,
     private readonly connection: Connection,
     @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+    // Ideal method to import a module dependant config variables. It ensures type safety
+    @Inject(CoffeesConfig.KEY)
+    private readonly coffeesConfiguration: ConfigType<typeof CoffeesConfig>,
+    private readonly configService: ConfigService,
   ) {
     console.log(coffeeBrands);
     console.log('Coffee service instantiated');
+    console.log(process.env.DATABASE_HOST);
+
+    // Here the second value localhost is like a default value which will be used if we were not able to read the DATABASE_NAME initially
+    const database = this.configService.get('database.host', 'localhost');
+    const coffeesConfig = this.configService.get('coffees', 'localhost');
+    //The below 2 has not much type safety since we are dealing with objects
+    console.log(database);
+    console.log(coffeesConfig);
+
+    //This method has really good type safety since we are dealing with objects here
+    console.log(coffeesConfiguration);
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
