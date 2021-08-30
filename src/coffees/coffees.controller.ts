@@ -18,7 +18,9 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Public } from 'src/common/decorators/public.decorator';
 import { ParseIntPipe } from 'src/common/pipes/parse-int.pipe';
 import { Protocol } from 'src/common/decorators/protocol.decorator';
+import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('coffees')
 @Controller('coffees')
 export class CoffeesController {
   constructor(
@@ -28,6 +30,8 @@ export class CoffeesController {
     // console.log('Coffees controller created');
   }
 
+  // @ApiTags('coffees1') // Api level tags, this
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Public()
   @Get()
   async findAll(
@@ -40,6 +44,7 @@ export class CoffeesController {
     return this.coffeeService.findAll(paginationQuery);
   }
 
+  // @ApiTags('coffees1')
   @Get(':id')
   // Here the parseIntPipe is a custom pipe which we have used to tranform this input id parameter filed into a number.
   // This pipe will return with an error reponse in case of an invalid input value
