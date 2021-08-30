@@ -31,19 +31,17 @@ export class CoffeesService {
     private readonly coffeesConfiguration: ConfigType<typeof CoffeesConfig>,
     private readonly configService: ConfigService,
   ) {
-    console.log(coffeeBrands);
-    console.log('Coffee service instantiated');
-    console.log(process.env.DATABASE_HOST);
-
+    // console.log(coffeeBrands);
+    // console.log('Coffee service instantiated');
+    // console.log(process.env.DATABASE_HOST);
     // Here the second value localhost is like a default value which will be used if we were not able to read the DATABASE_NAME initially
-    const database = this.configService.get('database.host', 'localhost');
-    const coffeesConfig = this.configService.get('coffees', 'localhost');
+    // const database = this.configService.get('database.host', 'localhost');
+    // const coffeesConfig = this.configService.get('coffees', 'localhost');
     //The below 2 has not much type safety since we are dealing with objects
-    console.log(database);
-    console.log(coffeesConfig);
-
+    // console.log(database);
+    // console.log(coffeesConfig);
     //This method has really good type safety since we are dealing with objects here
-    console.log(coffeesConfiguration);
+    // console.log(coffeesConfiguration);
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
