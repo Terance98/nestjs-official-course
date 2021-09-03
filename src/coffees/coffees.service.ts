@@ -8,7 +8,7 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Flavour } from './entities/flavour.entity';
 import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
-import { COFFEE_BRANDS } from './coffees.constants';
+// import { COFFEE_BRANDS } from './coffees.constants';
 import { ConfigService, ConfigType } from '@nestjs/config';
 import CoffeesConfig from './config/coffees.config';
 
@@ -25,7 +25,7 @@ export class CoffeesService {
     @InjectRepository(Flavour)
     private readonly flavourRepository: Repository<Flavour>,
     private readonly connection: Connection,
-    @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+    // @Inject(COFFEE_BRANDS) coffeeBrands: string[],
     // Ideal method to import a module dependant config variables. It ensures type safety
     @Inject(CoffeesConfig.KEY)
     private readonly coffeesConfiguration: ConfigType<typeof CoffeesConfig>,

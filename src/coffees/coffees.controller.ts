@@ -11,13 +11,13 @@ import {
 } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
-import { Public } from 'src/common/decorators/public.decorator';
-import { ParseIntPipe } from 'src/common/pipes/parse-int.pipe';
-import { Protocol } from 'src/common/decorators/protocol.decorator';
+import { Public } from '../common/decorators/public.decorator';
+import { ParseIntPipe } from '../common/pipes/parse-int.pipe';
+import { Protocol } from '../common/decorators/protocol.decorator';
 import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('coffees')
@@ -38,7 +38,7 @@ export class CoffeesController {
     @Protocol('https') protocol: string,
     @Query() paginationQuery: PaginationQueryDto,
   ) {
-    console.log(protocol);
+    // console.log(protocol);
     // const { limit, offset } = paginationQuery;
     // await new Promise((resolve) => setTimeout(resolve, 5000));
     return this.coffeeService.findAll(paginationQuery);
@@ -51,7 +51,7 @@ export class CoffeesController {
   // This is an example for the parameter level piping which we can use in the controller level
   // Ideally we could also get the param object directly and match it with a dto. Where dto is also a global pipe which we define either in the main.ts file or the app.module.ts file
   findOne(@Param('id', ParseIntPipe) id: number) {
-    console.log(id);
+    // console.log(id);
     return this.coffeeService.findOne('' + id);
   }
 

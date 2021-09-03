@@ -5,7 +5,7 @@ import { CoffeesService } from './coffees.service';
 import { Coffee } from './entities/coffee.entity';
 import { Flavour } from './entities/flavour.entity';
 import { Event } from '../events/entities/event.entity';
-import { COFFEE_BRANDS } from './coffees.constants';
+// import { COFFEE_BRANDS } from './coffees.constants';
 import { Connection } from 'typeorm';
 import { ConfigModule } from '@nestjs/config';
 import coffeesConfig from './config/coffees.config';
@@ -18,17 +18,17 @@ import coffeesConfig from './config/coffees.config';
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
-    {
-      provide: COFFEE_BRANDS,
-      useFactory: async (connection: Connection): Promise<string[]> => {
-        //Ideal if we want to execute some query and then load the data
-        const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
-        console.log('[!]Async Factory');
-        return coffeeBrands;
-      },
-      inject: [Connection],
-      scope: Scope.TRANSIENT,
-    },
+    // {
+    //   provide: COFFEE_BRANDS,
+    //   useFactory: async (connection: Connection): Promise<string[]> => {
+    //     //Ideal if we want to execute some query and then load the data
+    //     const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
+    //     console.log('[!]Async Factory');
+    //     return coffeeBrands;
+    //   },
+    //   inject: [Connection],
+    //   scope: Scope.TRANSIENT,
+    // },
   ],
   exports: [CoffeesService],
 })
